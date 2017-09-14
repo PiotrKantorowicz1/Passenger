@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Passenger.Core.Domain;
 using Passenger.Core.Repositories;
 
@@ -14,21 +15,13 @@ namespace Passenger.Infrastructure.Repositories
             _drivers.Add(driver);
         }
 
-        public Driver Get(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object Get(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public Driver Get(Guid userId)
+            => _drivers.Single(x => x.UserId == userId);
 
         public IEnumerable<Driver> GetAll() => _drivers;
 
         public void Update(Driver driver)
         {
-            throw new NotImplementedException();
         }     
     }
 }
