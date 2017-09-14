@@ -8,6 +8,17 @@ namespace Passenger.Core.Domain
         public Guid UserId { get; protected set; }
         public Vehicle Vehicle { get; protected set; }
         public IEquatable<Route> Routes { get; protected set; }
-        public  IEquatable<DailyRoute> DailyRoutes { get; protected set; }
+        public IEquatable<DailyRoute> DailyRoutes { get; protected set; }
+
+        protected Driver()
+        {
+            
+        }
+
+        public Driver(Guid id, Guid userid)
+        {
+            Id = Id;
+            UserId = UserId;
+        }
     }
 }
