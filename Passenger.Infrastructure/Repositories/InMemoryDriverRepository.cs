@@ -22,6 +22,6 @@ namespace Passenger.Infrastructure.Repositories
 
         public void Update(Driver driver)
         {
-        }     
+        }
     }
 }

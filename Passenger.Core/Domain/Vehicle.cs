@@ -9,7 +9,7 @@ namespace Passenger.Core.Domain
         public int Seats { get; protected set; }
 
         protected Vehicle()
-        {            
+        {
         }
 
         private Vehicle(string brand, string name, int seats)
@@ -54,7 +54,7 @@ namespace Passenger.Core.Domain
             }
             if (seats > 9)
             {
-                throw  new Exception("You can not provide more than 9 seats.");
+                throw new Exception("You can not provide more than 9 seats.");
             }
             if (Seats == seats)
             {

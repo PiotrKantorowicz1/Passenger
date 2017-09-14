@@ -17,7 +17,7 @@ namespace Passenger.Core.Domain
 
         protected User()
         {
-           
+
         }
 
         public User(string email, string username, string password, string salt)
@@ -53,7 +53,7 @@ namespace Passenger.Core.Domain
             }
 
             Email = email.ToLowerInvariant();
-            UpdatedAt = DateTime.UtcNow;        
+            UpdatedAt = DateTime.UtcNow;
         }
 
         public void SetPassword(string password)
