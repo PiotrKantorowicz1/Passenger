@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Sockets;
 using System.Text.RegularExpressions;
 
 namespace Passenger.Core.Domain
@@ -18,7 +17,7 @@ namespace Passenger.Core.Domain
 
         }
 
-        protected Node (string address, double longtitude, double latitude)
+        protected Node(string address, double longtitude, double latitude)
         {
             SetAdress(address);
             SetLongtitude(longtitude);
@@ -57,9 +56,9 @@ namespace Passenger.Core.Domain
 
             Latitude = latitude;
             UpdatedAt = DateTime.UtcNow;
-    }
+        }
 
         public static Node Create(string address, double longitude, double latitude)
-           => new Node(address, longitude, latitude);
-}
+            => new Node(address, longitude, latitude);
+    }
 }
