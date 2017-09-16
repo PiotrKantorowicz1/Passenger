@@ -15,11 +15,6 @@ namespace Passenger.Core.Domain
         public DateTime CreatedAt { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
 
-        protected User()
-        {
-
-        }
-
         public User(string email, string username, string password, string salt)
         {
             Id = Guid.NewGuid();
