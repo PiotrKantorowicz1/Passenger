@@ -9,19 +9,19 @@ namespace Passenger.Infrastructure.Repositories
 {
     public class InMemoryDriverRepository : IDriverRepository
     {
-        private static ISet<Driver> _drivers = new HashSet<Driver>();
+        private static readonly ISet<Driver> Drivers = new HashSet<Driver>();
 
         public async Task<Driver> GetAsync(Guid userId)
-            => await Task.FromResult(_drivers.SingleOrDefault(x => x.UserId == userId));
+            => await Task.FromResult(Drivers.SingleOrDefault(x => x.UserId == userId));
 
-        public IEnumerable<Driver> GetAll() => _drivers;
+        public IEnumerable<Driver> GetAll() => Drivers;
 
         public async Task<IEnumerable<Driver>> GetAllAsync()
-            => await Task.FromResult(_drivers);
+            => await Task.FromResult(Drivers);
 
         public async Task AddAsync(Driver driver)
         {
-            _drivers.Add(driver);
+            Drivers.Add(driver);
             await Task.CompletedTask;
         }
 

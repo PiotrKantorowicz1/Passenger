@@ -8,6 +8,7 @@ namespace Passenger.Core.Domain
         public Vehicle Vehicle { get; protected set; }
         public IEquatable<Route> Routes { get; protected set; }
         public IEquatable<DailyRoute> DailyRoutes { get; protected set; }
+        public DateTime UpdatedAt { get; set; }
 
         protected Driver()
         {
@@ -16,7 +17,8 @@ namespace Passenger.Core.Domain
 
         public Driver(Guid userid)
         {
-            UserId = UserId;
+            UserId = userid;
         }
     }
 }
+
