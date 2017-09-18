@@ -2,19 +2,33 @@
 using Microsoft.AspNetCore.Mvc;
 using Passenger.Infrastructure.Commands;
 using Passenger.Infrastructure.Commands.Users;
+using Passenger.Infrastructure.Services;
 
 namespace Passenger.Api.Controllers
 {
-    [Route("[controller]")]
     public class AccountController : ApiControllerBase
-    {          
-        public AccountController(ICommandDispatcher commandDispatcher) : base(commandDispatcher)
+    {
+        private readonly IJwtHandler _jwtHandler;
+
+        public AccountController(ICommandDispatcher commandDispatcher,
+            IJwtHandler jwtHandler)
+            : base(commandDispatcher)
         {
+            _jwtHandler = jwtHandler;
         }
 
-        [HttpPost]
+        [HttpGet]
+        [Route("token")]
+        public IActionResult Get()
+        {
+            var token = _jwtHandler.CreateToken("user1@email.com", "admin");
+
+            return Json(token);
+        }
+
+        [HttpPut]
         [Route("password")]
-        public async Task<IActionResult> Post([FromBody] ChangeUserPassword command)
+        public async Task<IActionResult> Put([FromBody]ChangeUserPassword command)
         {
             await CommandDispatcher.DispatcherAsync(command);
 

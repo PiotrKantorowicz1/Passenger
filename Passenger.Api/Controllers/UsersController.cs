@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Passenger.Infrastructure.Commands;
 using Passenger.Infrastructure.Commands.Users;
 using Passenger.Infrastructure.Services;
-using Passenger.Infrastructure.Settings;
 
 namespace Passenger.Api.Controllers
 {
@@ -11,13 +11,13 @@ namespace Passenger.Api.Controllers
     {
         private readonly IUserService _userService;
 
-        public UsersController(IUserService userService, 
-            ICommandDispatcher commandDispatcher,
-            GeneralSettings settings) : base(commandDispatcher)
+        public UsersController(IUserService userService,
+            ICommandDispatcher commandDispatcher) : base(commandDispatcher)
         {
-            _userService = userService;  
+            _userService = userService;
         }
 
+        [Authorize(Policy = "admin")]
         [HttpGet("{email}")]
         public async Task<IActionResult> Get(string email)
         {
@@ -31,9 +31,9 @@ namespace Passenger.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateUser command)
+        public async Task<IActionResult> Post([FromBody]CreateUser command)
         {
-            await CommandDispatcher.DispatcherAsync(command);           
+            await CommandDispatcher.DispatcherAsync(command);
 
             return Created($"users/{command.Email}", new object());
         }
