@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Passenger.Infrastructure.Commands;
 using Passenger.Infrastructure.Commands.Users;
@@ -11,7 +12,7 @@ namespace Passenger.Api.Controllers
         private readonly IJwtHandler _jwtHandler;
 
         public AccountController(ICommandDispatcher commandDispatcher,
-            IJwtHandler jwtHandler)
+            IJwtHandler jwtHandler) 
             : base(commandDispatcher)
         {
             _jwtHandler = jwtHandler;
@@ -24,15 +25,15 @@ namespace Passenger.Api.Controllers
             var token = _jwtHandler.CreateToken("user1@email.com", "admin");
 
             return Json(token);
-        }
+        }   
 
         [HttpPut]
         [Route("password")]
         public async Task<IActionResult> Put([FromBody]ChangeUserPassword command)
         {
-            await CommandDispatcher.DispatcherAsync(command);
+            await CommandDispatcher.DispatchAsync(command);
 
             return NoContent();
-        }
+        }        
     }
 }

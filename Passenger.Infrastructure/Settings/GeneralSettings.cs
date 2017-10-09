@@ -1,4 +1,4 @@
-﻿namespace Passenger.Infrastructure.Settings
+namespace Passenger.Infrastructure.Settings
 {
     public class GeneralSettings
     {

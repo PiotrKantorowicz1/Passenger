@@ -1,4 +1,4 @@
-﻿namespace Passenger.Infrastructure.DTO
+namespace Passenger.Infrastructure.DTO
 {
     public class JwtDto
     {

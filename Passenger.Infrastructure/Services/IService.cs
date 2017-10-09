@@ -1,5 +1,6 @@
-﻿namespace Passenger.Infrastructure.Services
+namespace Passenger.Infrastructure.Services
 {
+    //Marker interface.
     public interface IService
     {
     }

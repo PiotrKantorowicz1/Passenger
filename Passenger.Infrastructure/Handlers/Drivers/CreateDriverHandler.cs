@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+using System;
+using System.Threading.Tasks;
 using Passenger.Infrastructure.Commands;
 using Passenger.Infrastructure.Commands.Drivers;
 using Passenger.Infrastructure.Services;
@@ -16,6 +17,7 @@ namespace Passenger.Infrastructure.Handlers.Drivers
 
         public async Task HandleAsync(CreateDriver command)
         {
+            //TODO: Implement create driver logic.
             await Task.CompletedTask;
         }
     }

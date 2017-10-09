@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Passenger.Core.Domain
 {
@@ -12,7 +12,7 @@ namespace Passenger.Core.Domain
         {
         }
 
-        private Vehicle(string brand, string name, int seats)
+        protected Vehicle(string brand, string name, int seats) 
         {
             SetBrand(brand);
             SetName(name);
@@ -30,7 +30,6 @@ namespace Passenger.Core.Domain
                 return;
             }
             Brand = brand;
-
         }
 
         private void SetName(string name)
@@ -48,14 +47,17 @@ namespace Passenger.Core.Domain
 
         private void SetSeats(int seats)
         {
-            if (seats < 0)
+           
+            if (seats < 0) 
             {
                 throw new Exception("Seats must be greater than 0.");
             }
-            if (seats > 9)
+
+            if (seats > 9) 
             {
-                throw new Exception("You can not provide more than 9 seats.");
+                throw new Exception("You can not provide more than 9 seats");
             }
+
             if (Seats == seats)
             {
                 return;
@@ -65,8 +67,5 @@ namespace Passenger.Core.Domain
 
         public static Vehicle Create(string brand, string name, int seats)
             => new Vehicle(brand, name, seats);
-
-        public static Vehicle Ford(string name, int seats)
-            => new Vehicle("Ford", name, seats);
     }
 }

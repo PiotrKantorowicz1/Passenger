@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace Passenger.Infrastructure.Commands
 {
     public interface ICommandDispatcher
     {
-        Task DispatcherAsync<T>(T command) where T : ICommand;
+        Task DispatchAsync<T>(T command) where T : ICommand;
     }
 }

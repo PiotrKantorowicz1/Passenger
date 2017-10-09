@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -26,18 +26,17 @@ namespace Passenger.Infrastructure.Services
                 new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(ClaimTypes.Role, role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, now.ToTimeStamp().ToString(), ClaimValueTypes.Integer64)
+                new Claim(JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString(), ClaimValueTypes.Integer64)
             };
 
             var expires = now.AddMinutes(_settings.ExpiryMinutes);
-            var signingCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key)),
-                    SecurityAlgorithms.HmacSha256);
+            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key)), 
+                SecurityAlgorithms.HmacSha256);
             var jwt = new JwtSecurityToken(
                 issuer: _settings.Issuer,
                 claims: claims,
                 notBefore: now,
-                expires: now.AddMinutes(_settings.ExpiryMinutes),
+                expires: expires,
                 signingCredentials: signingCredentials
             );
             var token = new JwtSecurityTokenHandler().WriteToken(jwt);
@@ -45,9 +44,8 @@ namespace Passenger.Infrastructure.Services
             return new JwtDto
             {
                 Token = token,
-                Expires = expires.ToTimeStamp()
+                Expires = expires.ToTimestamp()
             };
         }
     }
 }
-

@@ -1,13 +1,15 @@
-﻿using System;
+using System;
+using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 using Passenger.Infrastructure.Extensions;
 
 namespace Passenger.Infrastructure.Services
 {
     public class Encrypter : IEncrypter
     {
-        private const int DeriveBytesIterationsCount = 10000;
-        private const int SaltSize = 40;
+        private static readonly int DeriveBytesIterationsCount = 10000;
+        private static readonly int SaltSize = 40;
 
         public string GetSalt(string value)
         {
@@ -30,18 +32,19 @@ namespace Passenger.Infrastructure.Services
             {
                 throw new ArgumentException("Can not generate hash from an empty value.", nameof(value));
             }
-            if(salt.Empty())
+            if (salt.Empty())
             {
                 throw new ArgumentException("Can not use an empty salt from hashing value.", nameof(value));
             }
 
             var pbkdf2 = new Rfc2898DeriveBytes(value, GetBytes(salt), DeriveBytesIterationsCount);
+
             return Convert.ToBase64String(pbkdf2.GetBytes(SaltSize));
         }
 
         private static byte[] GetBytes(string value)
         {
-            var bytes = new byte[value.Length * sizeof(char)];
+            var bytes = new byte[value.Length*sizeof(char)];
             Buffer.BlockCopy(value.ToCharArray(), 0, bytes, 0, bytes.Length);
 
             return bytes;

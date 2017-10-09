@@ -1,27 +1,32 @@
-﻿using System.Net;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
+using Passenger.Api;
 using Passenger.Infrastructure.Commands.Users;
-using Xunit;
 using Passenger.Infrastructure.DTO;
+using Xunit;
 
 namespace Passenger.Tests.EndToEnd.Controllers
 {
-    public class UsersControllerTests : ControllerTestBase
-    {     
-       [Fact]
+    public class UsersControllerTests : ControllerTestsBase
+    {
+        [Fact]
         public async Task given_valid_email_user_should_exist()
         {
-            var email = "user1@gmail.com";
+            var email = "user1@email.com";
             var user = await GetUserAsync(email);
             user.Email.ShouldBeEquivalentTo(email);
         }
 
         [Fact]
-        public async Task given_valid_email_user_should_not_exist()
+        public async Task given_invalid_email_user_should_not_exist()
         {
-            var email = "user1@gmail.com";
+            var email = "user1000@email.com";
             var response = await Client.GetAsync($"users/{email}");
             response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.NotFound);
         }
@@ -29,16 +34,16 @@ namespace Passenger.Tests.EndToEnd.Controllers
         [Fact]
         public async Task given_unique_email_user_should_be_created()
         {
-            var command = new CreateUser
+            var command = new CreateUser 
             {
-                Email = "test@gmail.com",
-                Username = "test.",
+                Email = "test@email.com",
+                Username = "test",
                 Password = "secret"
             };
-            var payload = GetPayLoad(command);
-            var response = await Client.GetAsync($"users/{payload}");
+            var payload = GetPayload(command);
+            var response = await Client.PostAsync("users", payload);
             response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.Created);
-            response.Headers.Location.ToString().ShouldBeEquivalentTo($"users/{command.Email}.");
+            response.Headers.Location.ToString().ShouldBeEquivalentTo($"users/{command.Email}");
 
             var user = await GetUserAsync(command.Email);
             user.Email.ShouldBeEquivalentTo(command.Email);
@@ -47,9 +52,9 @@ namespace Passenger.Tests.EndToEnd.Controllers
         private async Task<UserDto> GetUserAsync(string email)
         {
             var response = await Client.GetAsync($"users/{email}");
-            var responeString = await response.Content.ReadAsStringAsync();
+            var responseString = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<UserDto>(responeString);
+            return JsonConvert.DeserializeObject<UserDto>(responseString);
         }
     }
 }

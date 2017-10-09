@@ -1,4 +1,6 @@
-﻿namespace Passenger.Core.Domain
+using System;
+
+namespace Passenger.Core.Domain
 {
     public class PassengerNode
     {
@@ -6,7 +8,7 @@
         public Passenger Passenger { get; protected set; }
 
         protected PassengerNode()
-        {           
+        {
         }
 
         protected PassengerNode(Passenger passenger, Node node)
@@ -17,6 +19,5 @@
 
         public static PassengerNode Create(Passenger passenger, Node node)
             => new PassengerNode(passenger, node);
-        
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Passenger.Infrastructure.DTO
 {
@@ -7,6 +7,6 @@ namespace Passenger.Infrastructure.DTO
         public Guid Id { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
-        public string FullName { get; set; }
+        public string FullName { get; set; }      
     }
 }

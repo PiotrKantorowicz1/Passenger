@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Passenger.Core.Domain
@@ -6,50 +6,55 @@ namespace Passenger.Core.Domain
     public class Node
     {
         private static readonly Regex NameRegex = new Regex("^(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._.-]+(?<![_.-])$");
-
         public string Address { get; protected set; }
-        public string Longitude { get; protected set; }
+        public double Longitude { get; protected set; }
         public double Latitude { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
 
-        public Node()
+        protected Node()
         {
-
         }
 
-        protected Node(string address, double longtitude, double latitude)
+        protected Node(string address, double longitude, double latitude) 
         {
             SetAdress(address);
-            SetLongtitude(longtitude);
-            SetLatitute(latitude);
+            SetLongitude(longitude);
+            SetLatitude(latitude);
         }
 
-        public void SetAdress(string address)
+        public void SetAdress(string address) 
         {
-            if (!NameRegex.IsMatch(address))
+            if(!NameRegex.IsMatch(address))
             {
-                throw new Exception("Adress id inValid.");
+                throw new Exception("Adress is invalid.");
             }
 
             Address = address;
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void SetLongtitude(double longtitude)
+        public void SetLongitude(double longitude) 
         {
-            if (double.IsNaN(longtitude))
+            if (double.IsNaN(longitude)) 
             {
-                throw new Exception("Longtitude must be a number.");
+                throw new Exception("Longitude must be a number.");
             }
-        }
+            if (Longitude == longitude) 
+            {
+                return;
+            }
 
-        public void SetLatitute(double latitude)
+            Longitude = longitude;
+            UpdatedAt = DateTime.UtcNow;
+        }
+        
+        public void SetLatitude(double latitude) 
         {
-            if (double.IsNaN(latitude))
+            if (double.IsNaN(Latitude)) 
             {
                 throw new Exception("Latitude must be a number.");
             }
-            if (Latitude == latitude)
+            if (Latitude == latitude) 
             {
                 return;
             }

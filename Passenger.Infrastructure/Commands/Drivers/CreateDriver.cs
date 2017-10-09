@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Passenger.Infrastructure.Commands.Drivers
 {
@@ -6,12 +6,11 @@ namespace Passenger.Infrastructure.Commands.Drivers
     {
         public Guid UserId { get; set; }
         public DriverVehicle Vehicle { get; set; }
-    }
-
-    public class DriverVehicle
-    {
-        public Guid Brand { get; protected set; }
-        public Guid Name { get; protected set; }
-        public Guid Seats { get; protected set; }
+        public class DriverVehicle 
+        {
+            public string Brand { get; set; }
+            public string Name { get; set; }
+            public int Seats { get;  set; }
+        }
     }
 }

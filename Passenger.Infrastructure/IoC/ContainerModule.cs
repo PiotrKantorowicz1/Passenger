@@ -1,11 +1,11 @@
-﻿using Autofac;
+using Autofac;
 using Microsoft.Extensions.Configuration;
 using Passenger.Infrastructure.IoC.Modules;
 using Passenger.Infrastructure.Mappers;
 
 namespace Passenger.Infrastructure.IoC
 {
-    public class ContainerModule : Module
+    public class ContainerModule : Autofac.Module
     {
         private readonly IConfiguration _configuration;
 
@@ -20,8 +20,8 @@ namespace Passenger.Infrastructure.IoC
                 .SingleInstance();
             builder.RegisterModule<CommandModule>();
             builder.RegisterModule<RepositoryModule>();
-            builder.RegisterModule<ServiceModule>();           
+            builder.RegisterModule<ServiceModule>();
             builder.RegisterModule(new SettingsModule(_configuration));
-        }
+        }          
     }
 }

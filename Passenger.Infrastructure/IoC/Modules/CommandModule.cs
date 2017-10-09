@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Autofac;
 using Passenger.Infrastructure.Commands;
 
@@ -13,8 +13,8 @@ namespace Passenger.Infrastructure.IoC.Modules
                 .Assembly;
 
             builder.RegisterAssemblyTypes(assembly)
-                .AsClosedTypesOf(typeof(ICommandHandler<>))
-                .InstancePerLifetimeScope();
+                   .AsClosedTypesOf(typeof(ICommandHandler<>))
+                   .InstancePerLifetimeScope();
 
             builder.RegisterType<CommandDispatcher>()
                 .As<ICommandDispatcher>()

@@ -1,4 +1,4 @@
-﻿namespace Passenger.Infrastructure.Services
+namespace Passenger.Infrastructure.Services
 {
     public interface IEncrypter
     {

@@ -1,9 +1,8 @@
-﻿namespace Passenger.Infrastructure.Extensions
+namespace Passenger.Infrastructure.Extensions
 {
     public static class StringExtensions
     {
-        public static bool Empty(this string value)       
+        public static bool Empty(this string value)
             => string.IsNullOrWhiteSpace(value);
-        
     }
 }
