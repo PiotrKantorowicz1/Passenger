@@ -38,6 +38,7 @@ namespace Passenger.Api
         {
             // Add framework services.
             services.AddAuthorization(x => x.AddPolicy("admin", p => p.RequireRole("admin")));
+            services.AddMemoryCache();
             services.AddMvc();
             var builder = new ContainerBuilder();
             builder.Populate(services);
@@ -66,6 +67,12 @@ namespace Passenger.Api
                 }
             });
 
+            var generalSettings = app.ApplicationServices.GetService<GeneralSettings>();
+            if(generalSettings.SeedData)
+            {
+                var dataInitializer = app.ApplicationServices.GetService<IDataInitializer>();
+                dataInitializer.SeedAsync();
+            }
             app.UseMvc();
             appLifetime.ApplicationStopped.Register(() => ApplicationContainer.Dispose());
         }
