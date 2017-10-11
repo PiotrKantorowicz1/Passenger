@@ -39,7 +39,7 @@ namespace Passenger.Infrastructure.Services
             var endNode = Node.Create(endAddress, endLatitude, endLongitude);
             var distance = _routeManager.CalculateDistance(startLatitude, startLongitude,
                 endLatitude, endLongitude);
-            driver.AddRoute(name, startNode, endNode);
+            driver.AddRoute(name, startNode, endNode, distance);
             await _driverRepository.UpdateAsync(driver);
         }
 
