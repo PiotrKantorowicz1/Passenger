@@ -10,6 +10,7 @@ namespace Passenger.Core.Domain
         private ISet<DailyRoute> _dailyRoutes = new HashSet<DailyRoute>();
         public Guid UserId { get; protected set; }
         public string Name { get; protected set; }
+        public double Distance {get; set;}
         public Vehicle Vehicle { get; protected set; }
         public DateTime UpdatedAt { get; private set; }
         public IEnumerable<Route> Routes
@@ -39,14 +40,19 @@ namespace Passenger.Core.Domain
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void AddRoute(string name, Node start, Node end)
+        public void AddRoute(string name, Node start, Node end, double distance)
         {
             var route = Routes.SingleOrDefault(x => x.Name == name);
             if(route != null)
             {
                 throw new Exception($"Route with name: '{name}' already exists for driver: {name}.");
             }
+            if(distance < 0)
+            {
+                throw new Exception($"Route with name: '{name}' can not have negative distance.");
+            }
             _routes.Add(Route.Create(name, start, end));
+            Distance = distance;
             UpdatedAt = DateTime.UtcNow;
         }
 

@@ -10,13 +10,16 @@ namespace Passenger.Infrastructure.Services
     public class DriverRouteService : IDriverRouteService
     {
         private readonly IDriverRepository _driverRepository;
+        private readonly IRouteManager _routeManager;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
         public DriverRouteService(IDriverRepository driverRepository,
-            IUserRepository userRepository, IMapper mapper)
+            IUserRepository userRepository, IMapper mapper,
+            IRouteManager routeManager)
         {
             _driverRepository = driverRepository;
+            _routeManager = routeManager;
             _userRepository = userRepository;
             _mapper = mapper;
         }
@@ -30,9 +33,13 @@ namespace Passenger.Infrastructure.Services
             {
                 throw new Exception($"Driver with user id: '{userId}' was not found.");
             }
-            var start = Node.Create("Start address", startLatitude, startLongitude);
-            var end = Node.Create("End address", endLatitude, endLongitude);
-            driver.AddRoute(name, start, end);
+            var startAddress = await _routeManager.GetAddressAsync(startLatitude, startLongitude);
+            var endAddress = await _routeManager.GetAddressAsync(endLatitude, endLongitude);
+            var startNode = Node.Create(startAddress, startLatitude, startLongitude);
+            var endNode = Node.Create(endAddress, endLatitude, endLongitude);
+            var distance = _routeManager.CalculateDistance(startLatitude, startLongitude,
+                endLatitude, endLongitude);
+            driver.AddRoute(name, startNode, endNode);
             await _driverRepository.UpdateAsync(driver);
         }
 
