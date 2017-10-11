@@ -35,5 +35,16 @@ namespace Passenger.Infrastructure.Services
             driver.AddRoute(name, start, end);
             await _driverRepository.UpdateAsync(driver);
         }
+
+        public async Task DeleteAsync(Guid userId, string name)
+        {
+            var driver = await _driverRepository.GetAsync(userId);
+            if(driver == null)
+            {
+                throw new Exception($"Driver with user id: '{userId}' was not found.");
+            }
+            driver.DeleteRoute(name);
+            await _driverRepository.UpdateAsync(driver);
+        }
     }
 }

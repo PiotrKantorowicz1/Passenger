@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Passenger.Infrastructure.Commands;
@@ -26,11 +27,24 @@ namespace Passenger.Api.Controllers
             return Json(drivers);
         }  
 
+         [HttpGet]
+         [Route("{userId}")]
+        public async Task<IActionResult> Get(Guid userId)
+        {
+            var driver = await _driverService.GetAsync(userId);
+            if(driver == null)
+            {
+                return NotFound();
+            }
+
+            return Json(driver);
+        }  
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreateDriver command)
         {
-            await CommandDispatcher.DispatchAsync(command);
+            await DispatchAsync(command);
 
             return NoContent();
         }        
