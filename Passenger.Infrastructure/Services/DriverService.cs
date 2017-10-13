@@ -46,7 +46,7 @@ namespace Passenger.Infrastructure.Services
             var driver = await _driverRepository.GetAsync(userId);
             if(driver != null)
             {
-                throw new Exception($"Driver with user id: '{userId}' already exists.");
+                throw new ServiceException(Exceptions.ErrorCodes.DriverAlreadyExsist, $"Driver with user id: '{userId}' already exists.");
             }
             driver = new Driver(user);
             await _driverRepository.AddAsync(driver);
