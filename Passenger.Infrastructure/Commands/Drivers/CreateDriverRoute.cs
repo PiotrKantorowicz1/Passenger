@@ -2,7 +2,7 @@ using System;
 
 namespace Passenger.Infrastructure.Commands.Drivers
 {
-    public class CreateDriverRoute : AuthenticateCommandBase
+    public class CreateDriverRoute : AuthenticatedCommandBase
     {
         public string Name {get; set;}
         public double StartLatitude {get; set;}

@@ -47,6 +47,24 @@ namespace Passenger.Api.Controllers
             await DispatchAsync(command);
 
             return NoContent();
-        }        
+        }
+
+        [Authorize]
+        [HttpPut("me")]
+        public async Task<IActionResult> Post([FromBody]UpdateDriver command)
+        {
+            await DispatchAsync(command);
+
+            return NoContent();
+        }              
+
+        [Authorize]
+        [HttpPost("me")]
+        public async Task<IActionResult> Post()
+        {
+            await DispatchAsync(new DeleteDriver());
+
+            return NoContent();
+        }              
     }
 }
