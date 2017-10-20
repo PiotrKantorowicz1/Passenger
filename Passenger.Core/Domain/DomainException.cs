@@ -4,8 +4,8 @@ namespace Passenger.Core.Domain
 {
     public class DomainException : PassengerException
     {
-        protected DomainException()
-        {           
+        public DomainException()
+        {
         }
 
         public DomainException(string code) : base(code)
@@ -16,18 +16,18 @@ namespace Passenger.Core.Domain
         {
         }
 
-        public DomainException(string code, string message, params object[] args) : base(null, string.Empty, message, args)
+        public DomainException(string code, string message, params object[] args) : base(null, code, message, args)
         {
         }
 
-        public DomainException(Exception innerException, string message, params object[] args) 
+        public DomainException(Exception innerException, string message, params object[] args)
             : base(innerException, string.Empty, message, args)
         {
         }
 
-        public DomainException(Exception innerException, string code, string message, params object[] args) 
-            : base(code, string.Format(message, args), innerException)
+        public DomainException(Exception innerException, string code, string message, params object[] args)
+            : base(string.Format(message, args), innerException)
         {
-        }
+        }        
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Passenger.Core.Domain;
@@ -11,17 +12,17 @@ namespace Passenger.Infrastructure.Services
     public class DriverRouteService : IDriverRouteService
     {
         private readonly IDriverRepository _driverRepository;
-        private readonly IRouteManager _routeManager;
         private readonly IUserRepository _userRepository;
+        private readonly IRouteManager _routeManager;
         private readonly IMapper _mapper;
 
         public DriverRouteService(IDriverRepository driverRepository,
-            IUserRepository userRepository, IMapper mapper,
-            IRouteManager routeManager)
+            IUserRepository userRepository,
+            IRouteManager routeManager, IMapper mapper)
         {
             _driverRepository = driverRepository;
-            _routeManager = routeManager;
             _userRepository = userRepository;
+            _routeManager = routeManager;
             _mapper = mapper;
         }
 
@@ -34,7 +35,7 @@ namespace Passenger.Infrastructure.Services
             var endAddress = await _routeManager.GetAddressAsync(endLatitude, endLongitude);
             var startNode = Node.Create(startAddress, startLatitude, startLongitude);
             var endNode = Node.Create(endAddress, endLatitude, endLongitude);
-            var distance = _routeManager.CalculateDistance(startLatitude, startLongitude,
+            var distance = _routeManager.CalculateLength(startLatitude, startLongitude,
                 endLatitude, endLongitude);
             driver.AddRoute(name, startNode, endNode, distance);
             await _driverRepository.UpdateAsync(driver);

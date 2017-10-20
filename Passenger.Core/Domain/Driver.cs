@@ -8,6 +8,7 @@ namespace Passenger.Core.Domain
     {
         private ISet<Route> _routes = new HashSet<Route>();
         private ISet<DailyRoute> _dailyRoutes = new HashSet<DailyRoute>();
+
         public Guid UserId { get; protected set; }
         public string Name { get; protected set; }
         public Vehicle Vehicle { get; protected set; }
@@ -39,18 +40,14 @@ namespace Passenger.Core.Domain
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void AddRoute(string name, Node start, Node end, double distance)
+        public void AddRoute(string name, Node start, Node end, double length)
         {
             var route = Routes.SingleOrDefault(x => x.Name == name);
             if(route != null)
             {
-                throw new Exception($"Route with name: '{name}' already exists for driver: {name}.");
+                throw new Exception($"Route with name: '{name}' already exists for driver: {Name}.");
             }
-            if(distance < 0)
-            {
-                throw new Exception($"Route with name: '{name}' can not have negative distance.");
-            }
-            _routes.Add(Route.Create(name, start, end, distance));
+            _routes.Add(Route.Create(name, start, end, length));
             UpdatedAt = DateTime.UtcNow;
         }
 
@@ -59,10 +56,10 @@ namespace Passenger.Core.Domain
             var route = Routes.SingleOrDefault(x => x.Name == name);
             if(route == null)
             {
-                throw new Exception($"Route with name: '{name}' for driver: {name} was not found");
+                throw new Exception($"Route named: '{name}' for driver: '{Name}' was not found.");
             }
             _routes.Remove(route);
-            UpdatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;            
         }
     }
 }

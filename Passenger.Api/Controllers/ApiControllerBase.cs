@@ -9,14 +9,14 @@ namespace Passenger.Api.Controllers
     public abstract class ApiControllerBase : Controller
     {
         private readonly ICommandDispatcher CommandDispatcher;
-        protected Guid UserId => User?.Identity?.IsAuthenticated == true ?
-            Guid.Parse(User.Identity.Name) :
+        protected Guid UserId => User?.Identity?.IsAuthenticated == true ? 
+            Guid.Parse(User.Identity.Name) : 
             Guid.Empty;
-
+        
         protected ApiControllerBase(ICommandDispatcher commandDispatcher)
         {
             CommandDispatcher = commandDispatcher;
-        }        
+        }
 
         protected async Task DispatchAsync<T>(T command) where T : ICommand
         {

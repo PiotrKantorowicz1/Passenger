@@ -16,6 +16,7 @@ using Passenger.Core.Repositories;
 using Passenger.Infrastructure.IoC;
 using Passenger.Infrastructure.IoC.Modules;
 using Passenger.Infrastructure.Mappers;
+using Passenger.Infrastructure.Mongo;
 using Passenger.Infrastructure.Repositories;
 using Passenger.Infrastructure.Services;
 using Passenger.Infrastructure.Settings;
@@ -44,7 +45,7 @@ namespace Passenger.Api
             services.AddAuthorization(x => x.AddPolicy("admin", p => p.RequireRole("admin")));
             services.AddMemoryCache();
             services.AddMvc()
-                .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented);
+                    .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented);
             var builder = new ContainerBuilder();
             builder.Populate(services);
             builder.RegisterModule(new ContainerModule(Configuration));
@@ -62,7 +63,6 @@ namespace Passenger.Api
             loggerFactory.AddNLog();
             app.AddNLogWeb();
             env.ConfigureNLog("nlog.config");
-                       
             var jwtSettings = app.ApplicationServices.GetService<JwtSettings>();
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
@@ -75,6 +75,7 @@ namespace Passenger.Api
                 }
             });
 
+            MongoConfigurator.Initialize();
             var generalSettings = app.ApplicationServices.GetService<GeneralSettings>();
             if(generalSettings.SeedData)
             {

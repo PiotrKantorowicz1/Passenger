@@ -4,9 +4,8 @@ namespace Passenger.Infrastructure.Services
 {
     public interface IRouteManager : IService
     {
-        Task<string> GetAddressAsync(double latitude, double longitude);
-
-        double CalculateDistance(double startLatitude, double startLongitude,
+        Task<string> GetAddressAsync(double latitude, double longitue);
+        double CalculateLength(double startLatitude, double startLongitude,
             double endLatitude, double endLongitude);
     }
 }

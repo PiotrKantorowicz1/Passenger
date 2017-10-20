@@ -1,4 +1,4 @@
-namespace Passenger.Infrastructure.Exceptions
+namespace Passenger.Infrastructure
 {
     public static class ErrorCodes
     {

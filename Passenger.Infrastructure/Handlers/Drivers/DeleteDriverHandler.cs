@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Passenger.Infrastructure.Commands;
 using Passenger.Infrastructure.Commands.Drivers;
@@ -13,6 +14,7 @@ namespace Passenger.Infrastructure.Handlers.Drivers
         {
             _driverService = driverService;
         }
+
         public async Task HandleAsync(DeleteDriver command)
         {
             await _driverService.DeleteAsync(command.UserId);

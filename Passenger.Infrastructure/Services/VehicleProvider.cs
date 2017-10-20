@@ -10,52 +10,48 @@ namespace Passenger.Infrastructure.Services
 {
     public class VehicleProvider : IVehicleProvider
     {
-        private readonly IMemoryCache _cache;
-        private readonly static string cacheKey = "vehicles";
-
-        private static readonly IDictionary<string, IEnumerable<VehicleDetails>> availableVehicles =
+        private static readonly IDictionary<string, IEnumerable<VehicleDetails>> availableVehicles = 
             new Dictionary<string, IEnumerable<VehicleDetails>>
+        {
+            ["Audi"] = new List<VehicleDetails>(),
+            ["BMW"] = new List<VehicleDetails>
             {
-                ["Audi"] = new List<VehicleDetails>
-                {
-                    new VehicleDetails("RS8", 5)
-                },
-                ["BMW"] = new List<VehicleDetails>
-                {
-                    new VehicleDetails("i8", 3),
-                    new VehicleDetails("e36", 5)
-                },
-                ["Skoda"] = new List<VehicleDetails>
-                {
-                    new VehicleDetails("Fabia", 5),
-                    new VehicleDetails("Rapid", 5)
-                },
-                ["Ford"] = new List<VehicleDetails>
-                {
-                    new VehicleDetails("Fiesta", 5)
-                },
-                ["Volkswagen"] = new List<VehicleDetails>
-                {
-                    new VehicleDetails("Passat", 5)
-                },
-            };
+                new VehicleDetails("i8", 3),
+                new VehicleDetails("E36", 5)
+            },
+            ["Ford"] = new List<VehicleDetails>
+            {
+                new VehicleDetails("Fiesta", 5),
+            },
+            ["Skoda"] = new List<VehicleDetails>
+            {
+                new VehicleDetails("Fabia", 5),
+                new VehicleDetails("Octavia", 5)
+            },
+            ["Volkswagen"] = new List<VehicleDetails>()
+        };
+
+        private readonly static string CacheKey = "vehicles";
+        private readonly IMemoryCache _cache;
 
         public VehicleProvider(IMemoryCache cache)
         {
             _cache = cache;
         }
+
+        //Sample usage of the caching mechanism.
         public async Task<IEnumerable<VehicleDto>> BrowseAsync()
         {
-            var vehicles = _cache.Get<IEnumerable<VehicleDto>>(cacheKey);
+            var vehicles =  _cache.Get<IEnumerable<VehicleDto>>(CacheKey);
             if(vehicles == null)
             {
                 vehicles = await GetAllAsync();
-                _cache.Set(cacheKey, vehicles);
+                _cache.Set(CacheKey, vehicles);
             }
-            
-            return vehicles;
-        }
 
+            return vehicles; 
+        }
+                
         public async Task<VehicleDto> GetAsync(string brand, string name)
         {
             if(!availableVehicles.ContainsKey(brand))
@@ -77,19 +73,20 @@ namespace Passenger.Infrastructure.Services
             });
         }
 
-        public async Task<IEnumerable<VehicleDto>> GetAllAsync()
+        //Let's assume it's either an expensive or often used query on a database.
+        private async Task<IEnumerable<VehicleDto>> GetAllAsync() 
             => await Task.FromResult(availableVehicles.GroupBy(x => x.Key)
-                .SelectMany(g => g.SelectMany(v => v.Value.Select(c => new VehicleDto
+                .SelectMany(g => g.SelectMany(v => v.Value.Select(x => new VehicleDto
                 {
                     Brand = v.Key,
-                    Name = c.Name,
-                    Seats = c.Seats
+                    Name = x.Name,
+                    Seats = x.Seats
                 }))));
 
         private class VehicleDetails
         {
-            public string Name {get;}
-            public int Seats {get;}
+            public string Name { get; }
+            public int Seats { get; }
 
             public VehicleDetails(string name, int seats)
             {

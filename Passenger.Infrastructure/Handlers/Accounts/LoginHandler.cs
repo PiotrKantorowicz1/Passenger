@@ -13,9 +13,9 @@ namespace Passenger.Infrastructure.Handlers.Accounts
         private readonly IUserService _userService;
         private readonly IJwtHandler _jwtHandler;
         private readonly IMemoryCache _cache;
-        
-        public LoginHandler(IHandler handler, IUserService userService, 
-            IJwtHandler jwtHandler, IMemoryCache cache)
+
+        public LoginHandler(IHandler handler, IUserService userService,
+                            IJwtHandler jwtHandler, IMemoryCache cache)
         {
             _handler = handler;
             _userService = userService;
@@ -24,16 +24,16 @@ namespace Passenger.Infrastructure.Handlers.Accounts
         }
 
         public async Task HandleAsync(Login command)
-            => await _handler
-                .Run(async () => await _userService.LoginAsync(command.Email, command.Password))
-                .Next()
-                .Run(async () =>
-                {
-                    var user = await _userService.GetAsync(command.Email);
-                    var jwt = _jwtHandler.CreateToken(user.Id, user.Role);
-                    _cache.SetJwt(command.TokenId, jwt);
-                })
-                .ExecuteAsync();
-       
+        => await _handler
+            .Run(async () => await _userService.LoginAsync(command.Email, command.Password))
+            .Next()
+            .Run(async () =>
+	        {
+	            var user = await _userService.GetAsync(command.Email);
+	            var jwt = _jwtHandler.CreateToken(user.Id, user.Role);
+	            _cache.SetJwt(command.TokenId, jwt);
+	        })
+            .Next()
+            .ExecuteAllAsync();
     }
 }

@@ -26,19 +26,15 @@ namespace Passenger.Api.Controllers
             await DispatchAsync(command);
 
             return NoContent();
-        }        
+        }
 
         [Authorize]
-        [HttpDelete("{name}")]
-         public async Task<IActionResult> Delete(string name)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody]CreateDriverRoute command)
         {
-            var command = new DeleteDriverRoute
-            {
-                Name = name
-            };
             await DispatchAsync(command);
 
             return NoContent();
-        }        
+        }                
     }
 }

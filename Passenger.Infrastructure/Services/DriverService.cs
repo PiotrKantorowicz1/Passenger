@@ -13,17 +13,17 @@ namespace Passenger.Infrastructure.Services
     {
         private readonly IDriverRepository _driverRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IMapper _mapper;
         private readonly IVehicleProvider _vehicleProvider;
+        private readonly IMapper _mapper;
 
         public DriverService(IDriverRepository driverRepository,
-            IUserRepository userRepository, IMapper mapper,
-            IVehicleProvider vehicleProvider)
+            IUserRepository userRepository,
+            IVehicleProvider vehicleProvider, IMapper mapper)
         {
             _driverRepository = driverRepository;
             _userRepository = userRepository;
-            _mapper = mapper;
             _vehicleProvider = vehicleProvider;
+            _mapper = mapper;
         }
 
         public async Task<DriverDetailsDto> GetAsync(Guid userId)
@@ -46,7 +46,7 @@ namespace Passenger.Infrastructure.Services
             var driver = await _driverRepository.GetAsync(userId);
             if(driver != null)
             {
-                throw new ServiceException(Exceptions.ErrorCodes.DriverAlreadyExsist, $"Driver with user id: '{userId}' already exists.");
+                throw new Exception($"Driver with user id: '{userId}' already exists.");
             }
             driver = new Driver(user);
             await _driverRepository.AddAsync(driver);
@@ -56,14 +56,14 @@ namespace Passenger.Infrastructure.Services
         {
             var driver = await _driverRepository.GetOrFailAsync(userId);
             var vehicleDetails = await _vehicleProvider.GetAsync(brand, name);
-            var vehicle = Vehicle.Create(brand, name, vehicleDetails.Seats);
+            var vehicle = Vehicle.Create(vehicleDetails.Brand, vehicleDetails.Name, vehicleDetails.Seats);
             driver.SetVehicle(vehicle);
         }
 
         public async Task DeleteAsync(Guid userId)
         {
             var driver = await _driverRepository.GetOrFailAsync(userId);
-            await _driverRepository.DeleteAsync(driver);
+            await _driverRepository.DeleteAsync(driver);            
         }
     }
 }

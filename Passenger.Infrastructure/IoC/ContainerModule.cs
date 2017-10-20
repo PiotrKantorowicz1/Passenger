@@ -1,3 +1,4 @@
+
 using Autofac;
 using Microsoft.Extensions.Configuration;
 using Passenger.Infrastructure.IoC.Modules;
@@ -20,6 +21,7 @@ namespace Passenger.Infrastructure.IoC
                 .SingleInstance();
             builder.RegisterModule<CommandModule>();
             builder.RegisterModule<RepositoryModule>();
+            builder.RegisterModule<MongoModule>();
             builder.RegisterModule<ServiceModule>();
             builder.RegisterModule(new SettingsModule(_configuration));
         }          

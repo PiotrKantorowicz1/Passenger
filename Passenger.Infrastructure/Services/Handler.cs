@@ -7,24 +7,25 @@ namespace Passenger.Infrastructure.Services
     public class Handler : IHandler
     {
         private readonly ISet<IHandlerTask> _handlerTasks = new HashSet<IHandlerTask>();
-        public async Task ExecuteAllAsync()
-        {
-            foreach(var handlerTask in _handlerTasks)
-            {
-                await handlerTask.ExecuteAsync();
-            }
-            _handlerTasks.Clear();
-        }
 
-        public IHandlerTask Run(Func<Task> run)
+        public IHandlerTask Run(Func<Task> runAsync)
         {
-            var handlerTask = new HandlerTask(this, run);
+            var handlerTask = new HandlerTask(this, runAsync);
             _handlerTasks.Add(handlerTask);
 
             return handlerTask;
         }
 
-        public IHandlerTaskRunner Validate(Func<Task> validate)
-            => new HandlerTaskRunner(this, validate, _handlerTasks);
+        public IHandlerTaskRunner Validate(Func<Task> validateAsync)
+            => new HandlerTaskRunner(this, validateAsync, _handlerTasks);       
+
+        public async Task ExecuteAllAsync()
+        {
+            foreach (var handlerTask in _handlerTasks)
+            {
+                await handlerTask.ExecuteAsync();
+            }
+            _handlerTasks.Clear();
+        }
     }
 }

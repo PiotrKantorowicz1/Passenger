@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +18,7 @@ namespace Passenger.Api.Controllers
         {
             _userService = userService;
         }
-
+        
         public async Task<IActionResult> Get()
         {
             var users = await _userService.BrowseAsync();

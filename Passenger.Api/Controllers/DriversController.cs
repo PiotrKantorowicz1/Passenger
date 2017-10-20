@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NLog;
 using Passenger.Infrastructure.Commands;
 using Passenger.Infrastructure.Commands.Drivers;
 using Passenger.Infrastructure.Services;
@@ -11,7 +10,6 @@ namespace Passenger.Api.Controllers
 {
     public class DriversController : ApiControllerBase
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IDriverService _driverService;
 
         public DriversController(ICommandDispatcher commandDispatcher,
@@ -24,14 +22,12 @@ namespace Passenger.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            Logger.Info("Fetching drivers.");
             var drivers = await _driverService.BrowseAsync();
 
             return Json(drivers);
         }  
 
-         [HttpGet]
-         [Route("{userId}")]
+        [HttpGet("{userId}")]
         public async Task<IActionResult> Get(Guid userId)
         {
             var driver = await _driverService.GetAsync(userId);
@@ -41,7 +37,7 @@ namespace Passenger.Api.Controllers
             }
 
             return Json(driver);
-        }  
+        }
 
         [Authorize]
         [HttpPost]
@@ -49,25 +45,25 @@ namespace Passenger.Api.Controllers
         {
             await DispatchAsync(command);
 
-            return NoContent();
-        }
+            return Created($"drivers/{command.UserId}", null);
+        }     
 
         [Authorize]
-        [HttpPut("me")]
-        public async Task<IActionResult> Post([FromBody]UpdateDriver command)
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody]UpdateDriver command)
         {
             await DispatchAsync(command);
 
             return NoContent();
-        }              
+        } 
 
         [Authorize]
-        [HttpPost("me")]
-        public async Task<IActionResult> Post()
+        [HttpDelete("me")]
+        public async Task<IActionResult> Delete()
         {
             await DispatchAsync(new DeleteDriver());
 
             return NoContent();
-        }              
+        }             
     }
 }

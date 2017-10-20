@@ -10,7 +10,7 @@ namespace Passenger.Infrastructure.Services
         public async Task<string> GetAddressAsync(double latitude, double longtitude)
             => await Task.FromResult($"Sample address {Random.Next(100)}.");
 
-        public double CalculateDistance(double startLatitude, double startLongitude, double endLatitude, double endLongtitude)
+        public double CalculateLength(double startLatitude, double startLongitude, double endLatitude, double endLongtitude)
             => Random.Next(500,10000);
 
     }

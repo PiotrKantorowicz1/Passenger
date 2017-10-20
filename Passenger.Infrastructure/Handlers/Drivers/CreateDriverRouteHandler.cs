@@ -3,7 +3,7 @@ using Passenger.Infrastructure.Commands;
 using Passenger.Infrastructure.Commands.Drivers;
 using Passenger.Infrastructure.Services;
 
-namespace Passenger.Infrastructure.Commands
+namespace Passenger.Infrastructure.Handlers.Drivers
 {
     public class CreateDriverRouteHandler : ICommandHandler<CreateDriverRoute>
     {
@@ -16,9 +16,9 @@ namespace Passenger.Infrastructure.Commands
 
         public async Task HandleAsync(CreateDriverRoute command)
         {
-           await _driverRouteService.AddAsync(command.UserId, command.Name,
-                command.StartLatitude, command.StartLongitude,
+            await _driverRouteService.AddAsync(command.UserId, command.Name,
+                command.StartLatitude, command.StartLongitude, 
                 command.EndLatitude, command.EndLongitude);
-        }
+        }        
     }
 }

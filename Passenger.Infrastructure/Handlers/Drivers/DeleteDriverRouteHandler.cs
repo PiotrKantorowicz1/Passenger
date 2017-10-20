@@ -6,7 +6,7 @@ using Passenger.Infrastructure.Services;
 namespace Passenger.Infrastructure.Handlers.Drivers
 {
     public class DeleteDriverRouteHandler : ICommandHandler<DeleteDriverRoute>
-    {       
+    {
         private readonly IDriverRouteService _driverRouteService;
 
         public DeleteDriverRouteHandler(IDriverRouteService driverRouteService)
@@ -16,7 +16,7 @@ namespace Passenger.Infrastructure.Handlers.Drivers
 
         public async Task HandleAsync(DeleteDriverRoute command)
         {
-           await _driverRouteService.DeleteAsync(command.UserId, command.Name);
-        }
+            await _driverRouteService.DeleteAsync(command.UserId, command.Name);
+        }   
     }
 }
