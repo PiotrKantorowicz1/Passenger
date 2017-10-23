@@ -10,10 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Passenger.Core/Passenger.Core.csproj" />
-    <ProjectReference Include="../Passenger.Infrastructure/Passenger.Infrastructure.csproj" />
-  </ItemGroup>
-
+    <ProjectReference Include="../../src/Passenger.Core/Passenger.Core.csproj" />
+    <ProjectReference Include="../../src/Passenger.Infrastructure/Passenger.Infrastructure.csproj" />
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
     <PackageReference Include="xunit" Version="2.2.0" />

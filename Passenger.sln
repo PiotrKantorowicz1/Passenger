@@ -3,25 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Core", "Passenger.Core\Passenger.Core.csproj", "{C0367F07-8BDF-4FF9-8BB9-D0F8DE95E413}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Core", "src\Passenger.Core\Passenger.Core.csproj", "{C0367F07-8BDF-4FF9-8BB9-D0F8DE95E413}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Infrastructure", "Passenger.Infrastructure\Passenger.Infrastructure.csproj", "{57425961-FC5E-4E63-AB7A-DED660F7B42B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Infrastructure", "src\Passenger.Infrastructure\Passenger.Infrastructure.csproj", "{57425961-FC5E-4E63-AB7A-DED660F7B42B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C0367F07-8BDF-4FF9-8BB9-D0F8DE95E413} = {C0367F07-8BDF-4FF9-8BB9-D0F8DE95E413}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Api", "Passenger.Api\Passenger.Api.csproj", "{2444C987-F42E-4B71-9C59-7DD59A317A95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Api", "src\Passenger.Api\Passenger.Api.csproj", "{2444C987-F42E-4B71-9C59-7DD59A317A95}"
 	ProjectSection(ProjectDependencies) = postProject
 		{57425961-FC5E-4E63-AB7A-DED660F7B42B} = {57425961-FC5E-4E63-AB7A-DED660F7B42B}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Tests", "Passenger.Tests\Passenger.Tests.csproj", "{4FEE6925-BB97-40CD-9BF7-D2D74C68AF0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Tests", "tests\Passenger.Tests\Passenger.Tests.csproj", "{4FEE6925-BB97-40CD-9BF7-D2D74C68AF0F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C0367F07-8BDF-4FF9-8BB9-D0F8DE95E413} = {C0367F07-8BDF-4FF9-8BB9-D0F8DE95E413}
 		{57425961-FC5E-4E63-AB7A-DED660F7B42B} = {57425961-FC5E-4E63-AB7A-DED660F7B42B}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Tests.EndToEnd", "Passenger.Tests.EndToEnd\Passenger.Tests.EndToEnd.csproj", "{0A649F5D-29C4-4893-8FD7-6E42BA66932C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Tests.EndToEnd", "tests\Passenger.Tests.EndToEnd\Passenger.Tests.EndToEnd.csproj", "{0A649F5D-29C4-4893-8FD7-6E42BA66932C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
